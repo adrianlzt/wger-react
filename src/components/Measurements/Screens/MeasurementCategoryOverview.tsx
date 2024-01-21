@@ -22,9 +22,16 @@ const CategoryList = (props: { category: MeasurementCategory }) => {
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
 
+    // Title should be props.category.name, but if props.category.code is not empty,
+    // add a suffix " (calculated).
+    let title = props.category.name;
+    if (props.category.code) {
+        title = title + " (" + t("calculated") + ")";
+    }
+
     return <>
         <Card>
-            <CardHeader title={props.category.name} subheader={props.category.unit} />
+            <CardHeader title={title} subheader={props.category.unit} />
             <CardContent>
                 <MeasurementChart category={props.category} />
             </CardContent>

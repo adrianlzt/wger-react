@@ -18,7 +18,7 @@ export const WgerModal: FunctionComponent<WgerModalProps> = ({ title, subtitle, 
         left: '50%',
         transform: 'translate(-50%, -50%)',
         p: 2,
-        minWidth: '400px'
+        minWidth: '80%'
     };
 
     return (
