@@ -9,6 +9,8 @@ export class Day {
         public id: number,
         public description: string,
         public daysOfWeek: number[],
+        public decisionResult: boolean,
+        public decisionStdout: string,
         sets?: WorkoutSet[]
     ) {
         if (sets) {
@@ -23,7 +25,9 @@ export class DayAdapter implements Adapter<Day> {
         return new Day(
             item.id,
             item.description,
-            item.day
+            item.day,
+            item.decision_result,
+            item.decision_stdout,
         );
     }
 
@@ -31,7 +35,9 @@ export class DayAdapter implements Adapter<Day> {
         return {
             id: item.id,
             description: item.description,
-            day: item.daysOfWeek
+            day: item.daysOfWeek,
+            decision_result: item.decisionResult,
+            decision_stdout: item.decisionStdout,
         };
     }
 }

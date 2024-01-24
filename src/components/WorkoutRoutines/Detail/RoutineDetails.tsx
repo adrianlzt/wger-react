@@ -49,10 +49,20 @@ export const RoutineDetails = () => {
                     {/*</Typography>*/}
                     <Typography variant={"caption"}>
                         {routineQuery.data?.description}
+                        { routineQuery.data?.isDynamic
+                           &&
+                            <Typography>
+                                {t('routines.dynamicRoutine')}
+                            </Typography>
+                        }
                     </Typography>
                     <Stack spacing={2} sx={{ mt: 2 }}>
                         {routineQuery.data?.days.map((day) => (
-                            <DayDetails day={day} key={day.id} />
+                            <DayDetails
+                                day={day}
+                                key={day.id}
+                                dynamicWorkout={routineQuery.data?.isDynamic ?? false}
+                            />
                         ))}
                     </Stack>
                     <Box textAlign="center" sx={{ mt: 4 }}>
@@ -167,7 +177,7 @@ function SetList(props: {
 }
 
 // Day component that accepts a Day as a prop
-const DayDetails = (props: { day: Day }) => {
+const DayDetails = (props: { day: Day, dynamicWorkout: Boolean }) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -202,6 +212,14 @@ const DayDetails = (props: { day: Day }) => {
         { id: props.day.id }
     );
 
+    let subheader = props.day.daysOfWeek.map((dayId) => (daysOfWeek[dayId - 1])).join(", ");
+    if (props.dynamicWorkout) {
+        subheader = subheader.concat(" - workable: " + props.day.decisionResult);
+        if (props.day.decisionStdout !== "") {
+            subheader = subheader.concat(" - " + props.day.decisionStdout);
+        }
+    }
+
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardHeader
@@ -212,7 +230,7 @@ const DayDetails = (props: { day: Day }) => {
                     </IconButton>
                 }
                 title={props.day.description}
-                subheader={props.day.daysOfWeek.map((dayId) => (daysOfWeek[dayId - 1])).join(", ")}
+                subheader={subheader}
             />
             <Menu
                 id="basic-menu"

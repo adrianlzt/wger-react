@@ -13,6 +13,7 @@ export class WorkoutRoutine {
         public name: string,
         public description: string,
         public date: Date,
+        public isDynamic: boolean,
         days?: Day[],
     ) {
         if (days) {
@@ -29,6 +30,7 @@ export class WorkoutRoutineAdapter implements Adapter<WorkoutRoutine> {
             item.name,
             item.description,
             new Date(item.creation_date),
+            item.is_dynamic,
         );
     }
 
@@ -38,6 +40,7 @@ export class WorkoutRoutineAdapter implements Adapter<WorkoutRoutine> {
             name: item.name,
             description: item.description,
             creation_date: dateToYYYYMMDD(item.date),
+            is_dynamic: item.isDynamic,
         };
     }
 }
